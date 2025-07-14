@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Tool Install') {
             steps {
-                tool name: 'maven', type: 'maven'
+                tool name: 'Maven 3.8.1', type: 'maven'
             }
         }
 
@@ -20,14 +20,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'echo "No build step (no Maven project)"'
+                sh 'echo "No Maven build. Placeholder step."'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "sonar-scanner -Dsonar.projectKey=sonarqube-code -Dsonar.sources=. -Dsonar.host.url=http://http://13.201.129.109:9000 -Dsonar.login=$SONARQUBE"
+                withSonarQubeEnv(MySonarQube) {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=sonarqube-code -Dsonar.login=$SONARQUBE'
                 }
             }
         }
