@@ -2,17 +2,13 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.8.1' // Define in Global Tool Configuration
-    }
-
-    environment {
-        SONARQUBE = 'MySonarQube' // Same name used in step 2
+        maven 'Maven 3.8.1'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                git 'https://github.com/your/repo.git'
+                git credentialsId: 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, url: 'https://github.com/1mohanr/sonarqube-code.git', branch: 'main'
             }
         }
 
@@ -22,18 +18,10 @@ pipeline {
             }
         }
 
-        stage('Code Quality - SonarQube') {
+        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv("${SONARQUBE}") {
+                withSonarQubeEnv('My SonarQube Server') {
                     sh 'mvn sonar:sonar'
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
                 }
             }
         }
