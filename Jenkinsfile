@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git credentialsId: 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, url: 'https://github.com/1mohanr/sonarqube-code.git', branch: 'main'
+                git credentialsId: 'github-token', url: 'https://github.com/1mohanr/sonarqube-code.git', branch: 'main'
             }
         }
 
